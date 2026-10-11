@@ -56,6 +56,7 @@ public class MainFrame extends JFrame {
         JButton bookingButton = new JButton("View Bookings");
         JButton billButton = new JButton("Calculate Bill");
         JButton checkoutButton = new JButton("Check Out");
+        JButton revenueButton = new JButton("Total Revenue");
 
         JButton[] buttons = {
             roomsButton,
@@ -64,7 +65,8 @@ public class MainFrame extends JFrame {
             bookButton,
             bookingButton,
             billButton,
-            checkoutButton
+            checkoutButton,
+            revenueButton
         };
 
         for (JButton button : buttons) {
@@ -81,6 +83,7 @@ public class MainFrame extends JFrame {
         bookingButton.addActionListener(e -> viewBooking());
         billButton.addActionListener(e -> calculateBill());
         checkoutButton.addActionListener(e -> checkout());
+        revenueButton.addActionListener(e -> showRevenue());
 
         mainPanel.add(header, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
@@ -413,4 +416,25 @@ private void bookRoom() {
             frame.setVisible(true);
         });
     }
+
+
+
+private void showRevenue() {
+    try {
+        java.math.BigDecimal revenue =
+            new RevenueDAO().getTotalRevenue();
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Total Hotel Revenue: ₹" + revenue,
+            "Hotel Revenue",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+
+    } catch (Exception ex) {
+        showError(ex);
+    }
+}
+
+
 }
